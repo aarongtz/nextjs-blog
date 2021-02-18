@@ -1,34 +1,28 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
+import { getSortedPostsData } from '../lib/posts'
 import Link from 'next/link'
 import Date from '../components/date'
+import { GetStaticProps } from 'next'
 
-
-
-import { getSortedPostsData } from '../lib/posts'
-
-export async function getStaticProps() {
-   const allPostsData = getSortedPostsData()
-   return {
-      props: {
-         allPostsData
-      }
-   }
-}
-
-
-export default function Home({ allPostsData }) {
+export default function Home({
+   allPostsData
+}: {
+   allPostsData: {
+      date: string
+      title: string
+      id: string
+   }[]
+}) {
    return (
       <Layout home>
          <Head>
             <title>{siteTitle}</title>
          </Head>
          <section className={utilStyles.headingMd}>
-            <p>Hola, mi nombre es <b>Aarón Gutiérrez</b> y soy ingeniero de software, me puedes contactar en <a href="https://twitter.com/aarongtrz" target="_blank">Twitter</a>.</p>
-            <p>
-               Este es un sitio web de prueba
-            </p>
+            <p>Hola, mi nombre es <b>Aarón Gutiérrez</b> y soy ingeniero de software, me puedes contactar en <a href="https://www.linkedin.com/in/aarón-alejandro-gutiérrez-a6002134/" target="_blank">LinkedIn</a>.</p>
+
          </section>
          <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
             <h2 className={utilStyles.headingLg}>Blog</h2>
@@ -48,4 +42,13 @@ export default function Home({ allPostsData }) {
          </section>
       </Layout>
    )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+   const allPostsData = getSortedPostsData()
+   return {
+      props: {
+         allPostsData
+      }
+   }
 }
